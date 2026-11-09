@@ -76,3 +76,17 @@ credentials or promise that the upstream Antigravity runner is covered by that s
 No CV, profile, tracker, home address, credentials or mailbox data belongs in Git. `.personal/`,
 virtual environments, environment files and personal document formats are ignored.
 See [SETUP_REPORT.md](SETUP_REPORT.md) for the code review and validation status.
+
+## Optional six-hour discovery and scoring
+
+After configuring a real CV, Persona and target searches, set `scheduler_enabled` to
+`true` in the ignored `.personal/settings.json`, set the desired scrape interval in
+Settings, and restart using `personal/manage.py`. It defaults to off on a new install.
+The configured local instance uses 360 minutes. Runs happen only while this Mac and
+the app are running; sleep and shutdown pause them.
+
+This schedules public job discovery and CV matching. It does not install the Chrome
+extension, submit applications, accept legal agreements, complete CAPTCHAs or resolve
+missing factual answers. The original PDF remains the submission document; the
+structured base resume is the scoring profile. The extension's separate installation
+and permissions are needed before browser autofill can work.

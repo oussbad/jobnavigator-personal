@@ -59,3 +59,24 @@ The running local instance has scheduling and telemetry disabled. The owner expl
 That choice is stored only in the ignored local settings file. No credentials were copied or published. A real CV/Persona must be
 configured locally before scoring or autofill; no demonstration qualifications are left selected.
 No applications, emails or CV uploads are sent during setup.
+
+## Local candidate configuration
+
+The real base CV, Persona, confirmed reusable answers and original-design PDF are now
+configured locally. Twelve focused keyword searches cover four engineering role groups
+in Germany, Ireland and Sweden, with a six-hour interval and Codex fit scoring.
+Unrelated seed searches/employers are paused. Candidate preferences, factual constraints
+and sponsorship uncertainty are included in the scoring instructions. These instructions
+are model guidance, not a guarantee that every listing meets all requirements.
+
+The personal runtime supports an explicit local `scheduler_enabled` switch. Four runtime
+and tracker tests passed, including scheduling defaults and preservation of private
+runner authentication when the dashboard is keyless. No candidate profile or documents
+are committed. Browser autofill extension installation remains separate, and there is
+no automatic application submission or blanket consent acceptance.
+
+The first real search found seven new listings and exposed an upstream model-default bug:
+an empty CLI model incorrectly fell back to a Claude API model. The resolver now leaves
+subscription CLI defaults empty while preserving explicit model choices. The new model
+regressions plus existing provider tests passed (26 tests); no provider credentials are
+committed. The scheduled discovery/scoring loop is enabled locally at a 360-minute interval.

@@ -72,7 +72,7 @@ def resolve_llm_config(feature: str = "", db=None) -> dict:
                         "effort": effort}
         return {
             "provider": provider,
-            "model": model or DEFAULT_MODEL,
+            "model": model or ("" if provider in ("codex_cli", "claude_code", "antigravity_cli") else DEFAULT_MODEL),
             "api_key": provider_api_key(db, provider),
             "effort": effort,
         }

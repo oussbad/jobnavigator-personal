@@ -38,7 +38,7 @@ def environment():
         env.setdefault("JN_CODEX_USE_USER_CONFIG", "1")
     env.update(DATABASE_URL="postgresql://jobnavigator:" + cfg["db_password"] +
                "@127.0.0.1:55432/jobnavigator", INITIAL_API_KEY=cfg["dashboard_key"],
-               JN_TELEMETRY="off", JN_SKIP_DEMO_RESUME="1", JN_SCHEDULER_DISABLED="1", JN_RUNNER_MANAGEMENT="0",
+               JN_TELEMETRY="off", JN_SKIP_DEMO_RESUME="1", JN_SCHEDULER_DISABLED="0" if cfg.get("scheduler_enabled", False) else "1", JN_RUNNER_MANAGEMENT="0",
                JN_RUNNER_TOKEN_FILE=str(STATE / "runner-token"),
                JN_CODEX_RUNNER_URL="http://127.0.0.1:8011", JN_RUNNER_PROVIDER="codex_cli")
     return env
@@ -125,7 +125,8 @@ def start():
     launch("dashboard", [node, ROOT / "frontend/node_modules/vite/bin/vite.js", str(ROOT / "frontend"),
                          "--host", "127.0.0.1", "--port", "5173", "--strictPort"], env)
     wait_http("http://127.0.0.1:5173", "dashboard")
-    print("Ready: http://127.0.0.1:5173 — scheduler and telemetry are off.")
+    print("Ready: http://127.0.0.1:5173 — telemetry off; scheduler " +
+          ("enabled" if env["JN_SCHEDULER_DISABLED"] == "0" else "disabled") + ".")
     if settings()["dashboard_key"]:
         print("Dashboard key is in .personal/settings.json (local only).")
     else:
