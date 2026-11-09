@@ -52,9 +52,10 @@ EU sponsorship must be verified from employer evidence; the H-1B feature concern
 - Imported 48 historical applications; repeating the import added zero records.
 - Stop/start smoke test passed and preserved the history; the unmodified demonstration CV was removed.
 - Host Codex connection test returned `{"connection":"ok"}` using public placeholder text only.
+- After authorized persistent setup and restart, the authenticated JobNavigator HTTP runner returned
+  `{"runner":"ok"}`; historical application count remained 48.
 
-The running local instance has scheduling and telemetry disabled. Automatic approval review blocked
-persistently reusing the host Codex login without specific permission; host-configuration mode remains
-off pending that permission. No credentials were copied or published. A real CV/Persona must be
+The running local instance has scheduling and telemetry disabled. The owner explicitly authorized ongoing local reuse of the host Codex login and configuration.
+That choice is stored only in the ignored local settings file. No credentials were copied or published. A real CV/Persona must be
 configured locally before scoring or autofill; no demonstration qualifications are left selected.
 No applications, emails or CV uploads are sent during setup.

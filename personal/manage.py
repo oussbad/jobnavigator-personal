@@ -34,6 +34,8 @@ def settings():
 def environment():
     cfg = settings()
     env = dict(os.environ)
+    if cfg.get("codex_use_user_config"):
+        env.setdefault("JN_CODEX_USE_USER_CONFIG", "1")
     env.update(DATABASE_URL="postgresql://jobnavigator:" + cfg["db_password"] +
                "@127.0.0.1:55432/jobnavigator", INITIAL_API_KEY=cfg["dashboard_key"],
                JN_TELEMETRY="off", JN_SKIP_DEMO_RESUME="1", JN_SCHEDULER_DISABLED="1", JN_RUNNER_MANAGEMENT="0",

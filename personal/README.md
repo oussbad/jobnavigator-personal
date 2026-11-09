@@ -54,7 +54,8 @@ JN_CODEX_USE_USER_CONFIG=1 python3.13 personal/manage.py start
 If the services are already running, stop them first. This switch affects the runner started
 by that command; it never edits global Codex configuration or copies an auth file. It retains
 read-only execution, an empty temporary workspace, disabled web search and ephemeral sessions.
-An inherited `CODEX_HOME` is honored in this mode. Member accounts cannot use the owner's host config.
+An inherited `CODEX_HOME` is honored in this mode. The local-only setting
+`codex_use_user_config: true` in `.personal/settings.json` persists the choice between restarts. Member accounts cannot use the owner's host config.
 An enterprise connection that depends on additional environment credentials may need an approved
 adapter; those secrets are deliberately not forwarded by this change. Authentication and actual
 model access must be verified separately. No real LLM request is part of installation.
