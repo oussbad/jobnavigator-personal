@@ -57,6 +57,8 @@ def alive(name):
 
 def free(port):
     with socket.socket() as sock:
+        # Match the servers: recently closed connections must not block restart.
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         try:
             sock.bind(("127.0.0.1", port))
         except OSError:
@@ -124,7 +126,10 @@ def start():
                          "--host", "127.0.0.1", "--port", "5173", "--strictPort"], env)
     wait_http("http://127.0.0.1:5173", "dashboard")
     print("Ready: http://127.0.0.1:5173 — scheduler and telemetry are off.")
-    print("Dashboard key is in .personal/settings.json (local only).")
+    if settings()["dashboard_key"]:
+        print("Dashboard key is in .personal/settings.json (local only).")
+    else:
+        print("Direct local access enabled; no dashboard login required.")
 
 def stop():
     for name in ("dashboard", "runner", "api"):
