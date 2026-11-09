@@ -135,6 +135,7 @@ function App() {
           <Route path="companies" element={<Companies />} />
           <Route path="searches" element={<Searches />} />
           <Route path="applications" element={<Applications />} />
+          <Route path="autopilot" element={<iframe title="Application Autopilot" src="/api/autopilot/page" style={{width:"100%",height:"100vh",border:0}} />} />
           <Route path="cover-letters" element={<CoverLetters />} />
           <Route path="cover-letters/:id" element={<CoverLetterEditor />} />
           <Route path="settings" element={<Settings />} />

@@ -176,6 +176,11 @@ def _register_jobs(scrape_interval, email_interval, backup_cron, digest_cron, h1
 
     scheduler.remove_all_jobs()
 
+    # Submission worker is separately enabled and enforces scoped employer permissions.
+    from backend.autopilot.service import tick as application_tick
+    scheduler.add_job(application_tick, IntervalTrigger(minutes=10), id="application_autopilot",
+                      replace_existing=True, max_instances=1)
+
     # Interval-based jobs (0 = disabled)
     if scrape_interval > 0:
         # Scraping runs as the owner until MT-8 (shared-scrape fan-out); run_all_scrapes

@@ -8,6 +8,8 @@ Releases are named major.minor ("3.0"); tags before 3.0 carry a `.0` patch (`v2.
 
 ## [Unreleased]
 
+- Add an owner-only autonomous application queue with scoped employer permissions, browser form worker, receipt verification, proof screenshots, durable no-repeat protection and a ten-attempt rolling limit.
+
 - Personal host-native macOS startup, local tracker import and owner-only opt-in managed Codex configuration.
 
 ### Changed

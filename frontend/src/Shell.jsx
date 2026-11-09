@@ -30,6 +30,7 @@ const GROUPS = [
   ]},
   { label: 'Apply', items: [
     { to: '/applications', label: 'Applications', ready: true, countKey: 'apps', Icon: Send },
+    { to: '/autopilot', label: 'Autopilot', ready: true, Icon: Send },
     { to: '/resumes', label: 'Résumés', ready: true, countKey: 'resumes', Icon: FileUser },
     { to: '/cover-letters', label: 'Cover Letters', ready: true, countKey: 'letters', Icon: Mail },
   ]},

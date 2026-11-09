@@ -7,7 +7,8 @@ Prepared 9 November 2026. Upstream authorship and license are retained.
 
 JobNavigator is the best foundation of the four inspected tools for an existing Codex CLI
 workflow. It has a tracker, saved answers, ATS-specific autofill and a separated CLI runner.
-It is a dashboard and autofill assistant, not an unattended application-submission bot.
+Upstream supplies discovery, tracking and autofill. This personal fork now adds a separate
+constrained application worker; see AUTOPILOT.md for its tested scope and limitations.
 
 | Alternative | Relevant code finding | Decision |
 |---|---|---|
@@ -71,8 +72,8 @@ are model guidance, not a guarantee that every listing meets all requirements.
 The personal runtime supports an explicit local `scheduler_enabled` switch. Four runtime
 and tracker tests passed, including scheduling defaults and preservation of private
 runner authentication when the dashboard is keyless. No candidate profile or documents
-are committed. Browser autofill extension installation remains separate, and there is
-no automatic application submission or blanket consent acceptance.
+are committed. Browser autofill extension installation remains separate, and the extension does not submit. The new separate Autopilot worker submits specifically
+authorized applications; it does not grant blanket consent acceptance.
 
 The first real search found seven new listings and exposed an upstream model-default bug:
 an empty CLI model incorrectly fell back to a Claude API model. The resolver now leaves
@@ -85,3 +86,33 @@ a 40/100 score was stored successfully. This validates the model-resolution fix 
 claiming the listing is a suitable match. Seven new listings were initially discovered.
 Only the 12 targeted searches are active; the uninstalled extension sources remain paused.
 The 48 historical applications are unchanged.
+
+## Application worker
+
+A durable local submission queue, scoped employer permissions, Codex form planner,
+controlled browser actions, ten-attempt rolling limit, pause/resume, private proof
+screenshots and receipt-based tracking are implemented. The worker checks every ten
+minutes after the six-hour discovery/scoring task supplies matching roles.
+A real Codex/local-form smoke test filled, uploaded a dummy PDF, submitted once and
+recognized the receipt. No employer submission was sent during testing.
+This is tested on local ordinary HTML forms, not a claim of universal ATS support.
+See [AUTOPILOT.md](AUTOPILOT.md) for known boundaries.
+
+Worker validation completed: ten dedicated queue/browser regressions cover scoped
+authorization, no browser opening without permission, canonical duplicate URLs,
+permission revocation, rolling limits, restart uncertainty, multipart upload,
+receipt verification and agreement handoff. All 408 frontend tests and the build
+passed. Live status/page endpoints return 200; mutation without an explicit dashboard
+action header returns 403. The worker is enabled locally with the original CV and
+no standing employer permissions. Its first collected job awaits authorization.
+No live employer submission was sent. Actual employer/ATS flows remain unverified.
+
+CV/profile text is processed by the approved Codex connection for matching and
+planning. Private documents, credentials, queue data and screenshots are excluded
+from GitHub. The original PDF is uploaded only after a scoped employer/job grant.
+
+The dedicated browser/queue suite now has 11 passing tests, including an ordinary
+Apply-now anchor before the application form. A first owner-authorized Microsoft
+page was opened publicly; the worker initially needed attention because the landing
+page entry link was not in its control scan. Anchor discovery and delayed-control
+loading were fixed and regression-tested. No submission was attempted at that pause.

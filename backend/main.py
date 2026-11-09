@@ -114,6 +114,8 @@ async def lifespan(app: FastAPI):
         coordinator.start()
     try:
         yield
+    from backend.autopilot.service import shutdown as close_autopilot
+    await close_autopilot()
     finally:
         await coordinator.stop()
 
@@ -627,6 +629,8 @@ def auth_owner_lock(request: Request, response: _Response):
 
 
 # ── Routes ───────────────────────────────────────────────────────────────────
+from backend.api.routes_autopilot import router as autopilot_router
+app.include_router(autopilot_router, prefix="/api")
 app.include_router(settings_router, prefix="/api")
 app.include_router(jobs_router, prefix="/api")
 app.include_router(applications_router, prefix="/api")

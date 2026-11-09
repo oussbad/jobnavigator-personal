@@ -1,3 +1,5 @@
+> **Application worker:** [Autopilot setup and limits](AUTOPILOT.md). Open `/autopilot` in the dashboard.
+
 # Personal JobNavigator setup
 
 This checkout adds a host-native macOS setup to [JobNavigator](https://github.com/vesaias/JobNavigator).
@@ -85,8 +87,8 @@ Settings, and restart using `personal/manage.py`. It defaults to off on a new in
 The configured local instance uses 360 minutes. Runs happen only while this Mac and
 the app are running; sleep and shutdown pause them.
 
-This schedules public job discovery and CV matching. It does not install the Chrome
-extension, submit applications, accept legal agreements, complete CAPTCHAs or resolve
-missing factual answers. The original PDF remains the submission document; the
+This discovery task handles public job discovery and CV matching. The separately enabled
+Autopilot worker can submit specifically authorized applications. Agreements, CAPTCHA
+and missing facts still need attention. The browser worker does not require the extension. The original PDF remains the submission document; the
 structured base resume is the scoring profile. The extension's separate installation
 and permissions are needed before browser autofill can work.
