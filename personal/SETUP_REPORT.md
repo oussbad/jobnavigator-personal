@@ -80,3 +80,9 @@ an empty CLI model incorrectly fell back to a Claude API model. The resolver now
 subscription CLI defaults empty while preserving explicit model choices. The new model
 regressions plus existing provider tests passed (26 tests); no provider credentials are
 committed. The scheduled discovery/scoring loop is enabled locally at a 360-minute interval.
+
+End-to-end verification: the configured real CV was scored against one discovered listing;
+a 40/100 score was stored successfully. This validates the model-resolution fix without
+claiming the listing is a suitable match. Seven new listings were initially discovered.
+Only the 12 targeted searches are active; the uninstalled extension sources remain paused.
+The 48 historical applications are unchanged.
