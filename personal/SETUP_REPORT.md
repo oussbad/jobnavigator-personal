@@ -55,9 +55,8 @@ EU sponsorship must be verified from employer evidence; the H-1B feature concern
 - After authorized persistent setup and restart, the authenticated JobNavigator HTTP runner returned
   `{"runner":"ok"}`; historical application count remained 48.
 
-The running local instance has scheduling and telemetry disabled. The owner explicitly authorized ongoing local reuse of the host Codex login and configuration.
-That choice is stored only in the ignored local settings file. No credentials were copied or published. A real CV/Persona must be
-configured locally before scoring or autofill; no demonstration qualifications are left selected.
+Telemetry remains disabled. The configured local instance now runs discovery and scoring every six hours while the Mac and app are running. The owner explicitly authorized ongoing local reuse of the host Codex login and configuration.
+That choice is stored only in the ignored local settings file. No credentials were copied or published. The real CV and Persona are configured locally; no demonstration qualifications are selected.
 No applications, emails or CV uploads are sent during setup.
 
 ## Local candidate configuration
