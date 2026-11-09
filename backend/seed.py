@@ -1,5 +1,6 @@
 """Seed settings and companies tables with defaults on first run."""
 import logging
+import os
 import json
 import re
 import secrets
@@ -1679,6 +1680,8 @@ def seed_searches(db):
 
 def seed_mock_resume(db):
     """Seed a mock base Resume for demonstration and set it as default for all companies; bails if any base Resume already exists."""
+    if os.getenv("JN_SKIP_DEMO_RESUME") == "1":
+        return
     if db.query(Resume).filter(Resume.is_base == True).count() > 0:
         return  # User already has a base resume
 

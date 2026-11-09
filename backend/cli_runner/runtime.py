@@ -169,6 +169,13 @@ async def _call_codex_cli(prompt: str, system: str, model: str, max_tokens: int,
     # like ANTHROPIC_API_KEY for claude_code: the plan pays, never an API key that happens to be set
     env = _safe_env()
     login_hint = _CODEX_LOGIN_HINT
+    # Opt in only for a host-native runner whose organization permits this use.
+    # Keep the existing config and policy rules; never copy credentials into Docker.
+    managed_config = os.environ.get("JN_CODEX_USE_USER_CONFIG") == "1"
+    if managed_config and _own_login_account() is not None:
+        raise NonRetryableLLMError("Host Codex config is available only to the owner")
+    if managed_config and os.environ.get("CODEX_HOME"):
+        env["CODEX_HOME"] = os.environ["CODEX_HOME"]
     # MT-15: a member with its own models section logs in under its own CODEX_HOME; owner and
     # 'inherit' keep the default home (~/.codex), exactly as before.
     account = _own_login_account()
@@ -188,12 +195,14 @@ async def _call_codex_cli(prompt: str, system: str, model: str, max_tokens: int,
         full_prompt = f"{system}\n\n{prompt}"
         with tempfile.TemporaryDirectory(prefix="jobnavigator-codex-") as workdir:
             cmd = [
-                "codex", "exec", "--ephemeral", "--ignore-user-config", "--ignore-rules",
+                "codex", "exec", "--ephemeral",
                 "--skip-git-repo-check", "--sandbox", "read-only", "--color", "never",
                 "-c", "web_search=disabled", "-c", "history.persistence=none",
                 "-c", "check_for_update_on_startup=false",
                 "--json", "-C", workdir,
             ]
+            if not managed_config:
+                cmd.extend(["--ignore-user-config", "--ignore-rules"])
             if model:
                 cmd.extend(["--model", model])
             if effort:

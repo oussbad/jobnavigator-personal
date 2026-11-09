@@ -191,3 +191,12 @@ BACKLOG.md
 MT-PLAN.md
 QA-PLAN.md
 qa-shots/
+
+# Personal setup: credentials, application data and runtime files stay local.
+.personal/
+.venv*/
+.env.*
+!.env.example
+*.pdf
+*.docx
+application_tracker*.json

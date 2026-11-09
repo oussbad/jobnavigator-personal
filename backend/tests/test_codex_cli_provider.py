@@ -201,3 +201,33 @@ async def test_call_llm_does_not_retry_a_cli_timeout(monkeypatch, fallback):
         with pytest.raises(backend_client.CLITimeoutError, match="timed out after 300s"):
             await backend_client.call_llm("p", "s", 100)
         assert attempts == ["codex_cli"]
+
+
+@pytest.mark.asyncio
+async def test_host_config_preserves_rules_and_home_without_forwarding_api_key(monkeypatch, tmp_path):
+    process = FakeProcess(stdout=_jsonl([
+        {"type": "item.completed", "item": {"type": "agent_message", "text": "ok"}},
+    ]))
+    calls = _install(monkeypatch, process)
+    monkeypatch.setenv("JN_CODEX_USE_USER_CONFIG", "1")
+    monkeypatch.setenv("CODEX_HOME", str(tmp_path / "managed-codex"))
+    monkeypatch.setenv("OPENAI_API_KEY", "must-not-leak")
+    await llm_client._call_codex_cli("public job", "score", "", 100)
+    args, kwargs = calls[1]
+    assert "--ignore-user-config" not in args
+    assert "--ignore-rules" not in args
+    assert "--model" not in args
+    assert args[args.index("--sandbox") + 1] == "read-only"
+    assert kwargs["env"]["CODEX_HOME"] == str(tmp_path / "managed-codex")
+    assert "OPENAI_API_KEY" not in kwargs["env"]
+
+
+@pytest.mark.asyncio
+async def test_host_config_cannot_be_used_by_member_account(monkeypatch):
+    monkeypatch.setenv("JN_CODEX_USE_USER_CONFIG", "1")
+    token = llm_client._execution_account.set("member-id")
+    try:
+        with pytest.raises(NonRetryableLLMError, match="only to the owner"):
+            await llm_client._call_codex_cli("job", "score", "", 100)
+    finally:
+        llm_client._execution_account.reset(token)

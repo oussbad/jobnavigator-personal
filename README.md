@@ -1,3 +1,7 @@
+> **Personal setup:** [Start here](personal/README.md) for the host-native macOS deployment,
+> tracker import, Codex configuration notes and [setup report](personal/SETUP_REPORT.md).
+> Private application data stays outside Git.
+
 # JobNavigator
 
 <h3 align="center"><a href="https://vesaias.github.io/JobNavigator-demo/">JobNavigator Demo</a></h3>
