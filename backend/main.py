@@ -114,9 +114,9 @@ async def lifespan(app: FastAPI):
         coordinator.start()
     try:
         yield
-    from backend.autopilot.service import shutdown as close_autopilot
-    await close_autopilot()
     finally:
+        from backend.autopilot.service import shutdown as close_autopilot
+        await close_autopilot()
         await coordinator.stop()
 
     if scheduler.running:
